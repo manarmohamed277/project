@@ -1,0 +1,3 @@
+E:/Logs/New folder/cmake-build-debug/CMakeFiles/New_folder.dir
+E:/Logs/New folder/cmake-build-debug/CMakeFiles/edit_cache.dir
+E:/Logs/New folder/cmake-build-debug/CMakeFiles/rebuild_cache.dir
