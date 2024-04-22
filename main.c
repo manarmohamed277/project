@@ -8,7 +8,11 @@
 void addRecord();
  void adminPrevilage();
 void  viewAllRecords();
-int viewRecord();
+void viewRecord();
+int removeRecord();
+void editAdminPassword();
+void editStudentGrade();
+char adminPass[50]="1234";
 int main(){
    selectMode();
    return 0;}
@@ -32,18 +36,16 @@ int main(){
     }
     void adminMode(){
         int count=3;
-        int adminPass;
+        char pass[50];
         while(count--){
         printf("\nplease enter the password : ");
-        scanf("%d",&adminPass);
-        if(adminPass==1234){
+        scanf("%s",pass);
+        if(strcmp(pass,adminPass)==0){
           printf("\t\t\t\t\t welcome to admin mode\n");
           adminPrevilage();
         }
         else {
-            printf("wrong  ,  have %d tries\n",count);
-
-           // adminMode();
+            printf("wrong password\n");
         }}
         printf("you ran out of trise\n");
         selectMode();
@@ -68,16 +70,16 @@ int main(){
         scanf("%d",&adminChoise);
         if(adminChoise==1)
           addRecord();
-      /*  else if(adminChoise==2)
-          removeRecord();*/
+        else if(adminChoise==2)
+          removeRecord();
         else if(adminChoise==3)
           viewRecord();
-        else if(adminChoise==4){
-          viewAllRecords();}
-       /* else if(adminChoise==5)
+        else if(adminChoise==4)
+          viewAllRecords();
+        else if(adminChoise==5)
           editAdminPassword();
         else if(adminChoise==6)
-          editStudentGrade();*/
+          editStudentGrade();
           else{
             printf("wrong choise,try again");
             adminPrevilage();
@@ -89,7 +91,7 @@ typedef struct {
     char id[100];
     char pass[100];
     char gender[100];
-
+    int grade;
 } record;
     void addRecord() {
 
@@ -114,47 +116,79 @@ typedef struct {
             scanf("%s", pnt[i].gender);
             printf("enter passowrd: ");
             scanf("%s", pnt[i].pass);
-
-            FILE *fpnt;
-            fpnt = fopen("recFile.txt", "a"); // Use append mode
-            if (fpnt == NULL) {
-                printf("Error opening the file.\n");
-                return;
+            printf("enter grade: ");
+            scanf("%d",&pnt[i].grade);
             }
-
-            for (int i = 0; i < n; i++) {
-                fprintf(fpnt,"%s %s %d %s %s\n ",
-                        pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass);
-
+        FILE *fpnt;
+        fpnt = fopen("recFile.txt", "a"); // Use append mode
+        if (fpnt == NULL) {
+            printf("Error opening the file.\n");
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+                fprintf(fpnt,"%s %s %d %s %s %d\n ",
+                        pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass,pnt[i].grade);
+                //for me
                 printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\n",
-                       pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass);
+                       pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass,pnt[i].grade);
             }
 
             fflush(fpnt);
             fclose(fpnt); // Close the file
 
             printf("Record saved :)\n");
-        }
+
         adminPrevilage();
     }
 
-void removeRecord(){
-    char name[100]; char id[50];
+int removeRecord(){
+     char id[50];
     printf("enter id of student to remove his record: ");
     scanf("%s",id);
-    FILE *fpIn = fopen("recFile.txt", "r");
-    if (fpIn == NULL) {
-        printf("Error opening the file.\n");
-        return;}
-        FILE *fpOut = fopen("tempFile.txt", "w");
-        if (fpOut == NULL) {
-            printf("Error creating the temporary file.\n");
 
-            fclose(fpIn);
-            return;}
-    }
+        FILE *tempnt = fopen("tempFile.txt", "w");
+        if (tempnt == NULL) {
+            printf("Error creating the temporary file.\n");
+            return -1;}
+            FILE *fp;
+
+            fp = fopen("recFile.txt", "r");
+            if (fp == NULL) {
+                printf("Error opening file");
+                fclose(tempnt);
+                return -1;
+            }
+            record tempArr;
+            int i = 0;
+            fseek(fp, 0L, SEEK_SET);
+            while (fscanf(fp, "%s %s %d %s %s %d", tempArr.name, tempArr.id, &tempArr.age, tempArr.gender,
+                          tempArr.pass, &tempArr.grade) != EOF) {
+                if (strcmp(id, tempArr.id) != 0) {
+                    fprintf(tempnt, "%s %s %d %s %s %d\n ",
+                            tempArr.name, tempArr.id, tempArr.age, tempArr.gender, tempArr.pass, tempArr.grade);
+                }
+                else{ i=1;
+                }
+
+            }  fclose(tempnt);
+               fclose(fp);
+
+
+                if (i == 0) {
+                    printf(" Record not found.\n");
+                    remove("tempFile.txt");
+                    removeRecord();
+                }
+                else {
+                remove("recFile.txt");
+                rename("tempFile.txt", "recFile.txt");
+                printf("record removed successfully.\n");
+
+            }
+                adminPrevilage();
+        }
 void viewAllRecords() {
-    char s1[1000];
+   /* char s1[1000];
     FILE *read;
     read = fopen("recFile.txt", "r");
     if (read == NULL) {
@@ -164,13 +198,26 @@ void viewAllRecords() {
 
     while (fgets(s1, sizeof(s1), read)) {
         printf("%s", s1);
+    }*/
+    FILE *fp;
+    record student;
+    fp = fopen("recFile.txt", "r+");
+    if (fp == NULL) {
+        printf("Error opening file");
     }
+    while (fscanf(fp, "%49s %9s %d %9s %19s %d", student.name, student.id, &student.age, student.gender, student.pass, student.grade) != EOF) {
+            printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\nGrade: %d\n",
+                   student.name, student.id, student.age, student.gender, student.pass, student.grade);
+            printf("--------------------------------------------------");
 
-    fclose(read);
+        }
+
+    fclose(fp);
+    adminPrevilage();
 }
 
-int viewRecord() {
-     char id[100];
+void viewRecord() {
+     char id[50];
     printf("enter student id : ");
     scanf("%s", id);
     FILE *fp;
@@ -178,20 +225,13 @@ int viewRecord() {
     fp = fopen("recFile.txt", "r+");
     if (fp == NULL) {
         printf("Error opening file");
-        return -1;
     }
     int i = 0;
-    //fseek(fp, 0L, SEEK_SET);
-    // Search for the student with the target ID
-  //  int d=    fread(&student, sizeof (record), 1, fp);
-//printf("d= %d",d);
-      while (fscanf(fp, "%49s %9s %d %9s %19s", student.name, student.id, &student.age, student.gender, student.pass) != EOF) {
+      while (fscanf(fp, "%49s %9s %d %9s %19s %d", student.name, student.id, &student.age, student.gender, student.pass, &student.grade) != EOF) {
         if (strcmp(id, student.id) == 0) {
-            printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\n",
-                   student.name, student.id, student.age, student.gender, student.pass);
-            break;  // Exit the loop after finding the student
-
-
+            printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\nGrade: %d\n",
+                   student.name, student.id, student.age, student.gender, student.pass, student.grade);
+            break;
         }
         i=1;}
         if (feof(fp)) {
@@ -201,8 +241,52 @@ int viewRecord() {
         }
 
         fclose(fp);
-        printf("done");
-        return 0;
+        adminPrevilage();
     }
 
+void  editAdminPassword(){
+        char pass[50];
+        int count =3;
+        printf("\nplease enter the old password : ");
+        scanf("%s",pass);
+        if(strcmp(pass,adminPass)==0){
+            printf("enter the new password : ");
+            scanf("%s",adminPass);
+            adminPrevilage();
+        }
+        else {
+            printf("wrong password \n");
+            editAdminPassword();
+        }
+  adminPrevilage();
+    }
+
+void editStudentGrade(){
+        char id[50];
+        int nGrad;
+    printf("enter id of student to change his grade " );
+    scanf("%s",id);
+    printf("enter the new grade : ");
+    scanf("%d",&nGrad);
+    FILE *fp;
+    record student;
+    fp = fopen("recFile.txt", "r+");
+    if (fp == NULL) {
+        printf("Error opening file");}
+    while (fscanf(fp, " %s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,student.grade) != EOF) {
+        if (strcmp(id, student.id) == 0) {
+            student.grade=nGrad;
+            break;
+        }
+        }
+    if (feof(fp)) {
+        printf("Student with  not found.\n");
+    } else if (ferror(fp)) {
+        printf("Error reading file");
+    }
+
+    fclose(fp);
+    printf("done");
+
+}
 
