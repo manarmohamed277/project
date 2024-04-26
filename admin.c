@@ -71,7 +71,7 @@
             fclose(fpnt); // Close the file
 
             printf("Record saved :)\n");
-
+            free(pnt);
         adminPrevilage();
     }
 

@@ -41,10 +41,10 @@ void adminMode(){
     selectmode(); //if pass is wrong return to select mood
 
 }
+extern char ID[50];
 void  usermode() {
     record student;
     FILE *fpnt;
-    char ID[50];
     fpnt = fopen("recFile.txt", "r");
     if (fpnt == NULL) {
         printf("ERROR, FILE NOT OPENED\n");
@@ -54,9 +54,10 @@ void  usermode() {
     scanf("%s", ID);
     printf("enter password: ");
     scanf("%s",spass);
+    while (fscanf(fpnt, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
 
-    while (fscanf(fpnt, " %s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
         if (strcmp(ID, student.id) == 0) {
+            printf("eqrg");
             if (strcmp(spass, student.pass) == 0) {
                 printf("\t\t\t\t Welcome to usermode \n");
                 userprivilege();
@@ -66,9 +67,7 @@ void  usermode() {
                 printf("id or password is wrong, try again\n");
                 usermode();
             }
-        } else {
-            printf("record id not found\n");
-            usermode();
+        }
+    }
         }
 
-    }}

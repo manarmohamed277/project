@@ -1,6 +1,3 @@
-//
-// Created by Lenovo on 4/26/2024.
-//
 #include <stdio.h>
 #include<string.h>
 #include <malloc.h>
@@ -44,7 +41,7 @@ void viewrecord(char id[]) {
         exit(1);
     }
     int recordFound = 0;
-    while( fscanf(pf, " %s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
+    while( fscanf(file, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
         if (strcmp(student.id , id)==0) {
             printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\nGrade: %d\n",
                    student.name, student.id, student.age, student.gender, student.pass, student.grade);
@@ -53,8 +50,6 @@ void viewrecord(char id[]) {
             break;
         }
     }
-
-
     fclose(file);
 
     if (!recordFound) {
@@ -63,7 +58,6 @@ void viewrecord(char id[]) {
 }
 
 void editpass(char id[]) {
-
     char *password = (char *)malloc(50 * sizeof(char));
     FILE *tempfile = fopen("temp.txt", "a");
     file = fopen("recfile.txt", "r");
