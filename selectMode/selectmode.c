@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "admin.h"
-#include "user.h"
+#include "..\admin\admin.h"
+#include "..\user\user.h"
 #include "selectmode.h"
-#include "struct.h"
+#include "..\struct.h"
 
 void selectmode(){
 int mode;

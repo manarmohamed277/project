@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <string.h>
 #include "admin.h"
-#include "struct.h"
+#include "..\struct.h"
 
     void adminPrevilage(){
         printf("\t\t\t\t-----adminPrevilage-----\n");
@@ -121,6 +121,8 @@ int removeRecord(){
                 remove("recFile.txt");
                 rename("tempFile.txt", "recFile.txt");
                 printf("record removed successfully.\n");
+                    free(fp);
+                    free(tempnt);
 
             }
                 adminPrevilage();
@@ -205,36 +207,37 @@ void  editAdminPassword(){
 
 void editStudentGrade(){
         char id[50];
-        int nGrad;
+        int nGrade;
+    FILE *tempnt = fopen("tempFile.txt", "w");
+    if (tempnt == NULL) {
+        printf("Error creating the temporary file.\n");
+        }
         //taking id of the wanted recored
     printf("enter id of student to change his grade " );
     scanf("%s",id);
     printf("enter the new grade : ");
-    scanf("%d",&nGrad);
+    scanf("%d",&nGrade);
     FILE *fp;
     record student;
-    fp = fopen("recFile.txt", "r+");
+    fp = fopen("recFile.txt", "r");
+    fseek(fp, 0, SEEK_SET);
     if (fp == NULL) {
         printf("Error opening file");}
     //searching for the wanted recored
-    while (fscanf(fp, " %s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
-        if (strcmp(id, student.id) == 0) {
-            //changing the grade
-            student.grade=nGrad;
-            fseek(fp, -sizeof( record), SEEK_CUR); // move back to overwrite the record
-            fprintf(fp, "%s %s %d %s %s %d\n", student.name, student.id, student.age, student.gender, student.pass, student.grade);
-            break;
-        }
-        }
-    if (feof(fp)) {
-        printf("Student with  not found.\n");
-    } else if (ferror(fp)) {
-        printf("Error reading file");
-    }
 
-    fclose(fp);
-    printf("done");
-
+    while (fscanf(fp, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
+            if (strcmp(id, student.id) != 0) {
+                fprintf(tempnt, "%s %s %d %s %s %d\n ",
+                        student.name, student.id, student.age, student.gender, student.pass, student.grade);
+            }
+            else{
+                fprintf(tempnt, "%s %s %d %s %s %d\n",
+                        student.name, student.id, student.age, student.gender, student.pass, nGrade);
+            }
+        }
+    remove("recFile.txt");
+    rename("tempFile.txt", "recFile.txt");
+    printf("record updated successfully.\n");
 }
 
 
