@@ -9,9 +9,9 @@
 void usermode();
 void userprivilege();
 void viewrecord(char[]);
-int editpass();
-int remove_record(char id[40]);
-void editname();
+int editpass(char[]);
+void editname(char[]);
+
 
 
 

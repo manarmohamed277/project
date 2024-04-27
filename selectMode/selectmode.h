@@ -7,4 +7,5 @@
 void adminMode();
 void  usermode();
 void selectmode();
+int  Exit();
 #endif //NEW_FOLDER_SELECTMODE_H

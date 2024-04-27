@@ -7,7 +7,7 @@
 
 void selectmode(){
 int mode;
-printf("\t\t\t\t\t------------Student Record System------------\n");
+printf("\t\t\t\t\t------------Student Record System------------\n\n");
 printf("To select  mode enter:\n");
 printf(" 1 -> for admin mode \n 2 -> for user mode \n 3 -> for exit\n");
 scanf("%d",&mode);
@@ -15,9 +15,8 @@ if(mode==1)
 adminMode();
 else if(mode==2)
 usermode();
-
-// else if(mode==3)
-// exit();
+else if(mode==3)
+ Exit();
 else{
 printf("wrong choise,there is no such mode ,try again");
 selectmode();} //return to select mood
@@ -31,7 +30,7 @@ void adminMode(){
         printf("\nplease enter the password : ");
         scanf("%s",pass);
         if(strcmp(pass,adminPass)==0){
-            printf("\t\t\t\t\t----- welcome to admin mode-----\n");
+            printf("\t\t\t\t\t----- welcome to admin mode-----\n\n");
             adminPrevilage();
         }
         else {
@@ -57,17 +56,24 @@ void  usermode() {
     while (fscanf(fpnt, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
 
         if (strcmp(ID, student.id) == 0) {
-            printf("eqrg");
+
             if (strcmp(spass, student.pass) == 0) {
-                printf("\t\t\t\t Welcome to usermode \n");
+                printf("\t\t\t\t ---Welcome to usermode--- \n");
                 userprivilege();
                 break;
-            } //eawgt
+            }
             else {
                 printf("id or password is wrong, try again\n");
                 usermode();
             }
         }
+        else {
+            printf("student id not found\n");
+            usermode();
+        }
     }
         }
+        int Exit(){
+    return 1;
+}
 

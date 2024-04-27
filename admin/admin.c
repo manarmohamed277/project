@@ -3,29 +3,35 @@
 #include <string.h>
 #include "admin.h"
 #include "..\struct.h"
+#include "..\selectMode\selectmode.h"
 
     void adminPrevilage(){
         printf("\t\t\t\t-----adminPrevilage-----\n");
         int adminChoise;
         printf("enter appropriat number to perform the wanted task:\n");
-        printf("1: Add student record \n2: Remove student record\n3: View student record\n4: View all records\n5: Edit admin password\n6: Edit student grade\n");
+        printf("1: Add student record \n2: Remove student record\n3: View student record\n4: View all records\n5: Edit admin password\n6: Edit student grade\n7: exit admin mode\n");
         scanf("%d",&adminChoise);
-        if(adminChoise==1)
-          addRecord();
-        else if(adminChoise==2)
-          removeRecord();
-        else if(adminChoise==3)
-          viewRecord();
-        else if(adminChoise==4)
-          viewAllRecords();
-        else if(adminChoise==5)
-          editAdminPassword();
-        else if(adminChoise==6)
-          editStudentGrade();
-          else{
-            printf("wrong choise,try again");
-            adminPrevilage();
-          }
+        switch (adminChoise) {
+            case (1): addRecord();
+                break;
+            case (2): removeRecord();
+                break;
+            case (3): viewRecord();
+                break;
+            case (4): viewAllRecords();
+                break;
+            case (5): editAdminPassword();
+                break;
+            case (6): editStudentGrade();
+                break;
+            case (7): selectmode();
+                break;
+            default:
+                printf("wrong choise,try again");
+                adminPrevilage();
+
+
+        }
     }
     void addRecord() {
 
@@ -116,7 +122,7 @@ int removeRecord(){
                     remove("tempFile.txt");
                     removeRecord();
                 }
-                //removing the original and rename the temo after the original
+                //removing the original and rename the temp after the original
                 else {
                 remove("recFile.txt");
                 rename("tempFile.txt", "recFile.txt");
@@ -128,17 +134,7 @@ int removeRecord(){
                 adminPrevilage();
         }
 void viewAllRecords() {
-   /* char s1[1000];
-    FILE *read;
-    read = fopen("recFile.txt", "r");
-    if (read == NULL) {
-        printf("Error opening the file.\n");
-        return;
-    }
 
-    while (fgets(s1, sizeof(s1), read)) {
-        printf("%s", s1);
-    }*/
     FILE *fp;
     record student;
     fp = fopen("recFile.txt", "r+");
