@@ -31,8 +31,8 @@ The system is structured into several files:
 
 ## Usage 
 
-*__Admin Mode:__ Upon entering the correct admin password, you can perform various administrative tasks.
-*__User Mode:__ Users can view their records, edit their passwords, and edit their names after entering their IDs and passwords.
+* __Admin Mode:__ Upon entering the correct admin password, you can perform various administrative tasks.
+* __User Mode:__ Users can view their records, edit their passwords, and edit their names after entering their IDs and passwords.
 
 
 
