@@ -44,6 +44,13 @@
             printf("memory allocation failed");
             return;
         }
+
+        FILE *fpnt;
+        fpnt = fopen("recFile.txt", "a"); // Use append mode
+        if (fpnt == NULL) {
+            printf("Error opening the file.\n");
+            return;
+        }
         for (int i = 0; i < n; i++) {
             printf("for student %d :\n", 1 + i);
             printf("enter name: ");
@@ -59,21 +66,13 @@
             printf("enter grade: ");
             scanf("%d",&pnt[i].grade);
             }
-        FILE *fpnt;
-        fpnt = fopen("recFile.txt", "a"); // Use append mode
-        if (fpnt == NULL) {
-            printf("Error opening the file.\n");
-            return;
-        }
-        for (int i = 0; i < n; i++) {
+                for (int i = 0; i < n; i++) {
                 fprintf(fpnt,"%s %s %d %s %s %d\n ", //writing in the file
                         pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass,pnt[i].grade);
                 //for me
                 printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\n",
                        pnt[i].name, pnt[i].id, pnt[i].age, pnt[i].gender, pnt[i].pass,pnt[i].grade);
             }
-
-            fflush(fpnt);
             fclose(fpnt); // Close the file
 
             printf("Record saved :)\n");
@@ -129,7 +128,6 @@ int removeRecord(){
                 printf("record removed successfully.\n");
                     free(fp);
                     free(tempnt);
-
             }
                 adminPrevilage();
         }
@@ -148,8 +146,9 @@ void viewAllRecords() {
 
         }
 
-    fclose(fp);
     adminPrevilage();
+    fclose(fp);
+    free(fp);
 }
 
 void viewRecord() {
@@ -163,24 +162,24 @@ void viewRecord() {
     if (fp == NULL) {
         printf("Error opening file");
     }
-    int i = 0;
     // searching for the wanted recored
-      while (fscanf(fp, "%49s %9s %d %9s %19s %d", student.name, student.id, &student.age, student.gender, student.pass, &student.grade) != EOF) {
+      while (fscanf(fp, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass, &student.grade) != EOF) {
         if (strcmp(id, student.id) == 0) {
             //print the wanted recored
             printf("Name: %s\nID: %s\nAge: %d\nGender: %s\nPassword: %s\nGrade: %d\n",
                    student.name, student.id, student.age, student.gender, student.pass, student.grade);
             break;
         }
-        i=1;}
+        }
         if (feof(fp)) {
-            printf("Student with  not found.\n");
+            printf("Student with id not found.\n");
         } else if (ferror(fp)) {
             printf("Error reading file");
         }
 
-        fclose(fp);
         adminPrevilage();
+    fclose(fp);
+    free(fp);
     }
 
 void  editAdminPassword(){
@@ -223,17 +222,23 @@ void editStudentGrade(){
 
     while (fscanf(fp, "%s %s %d %s %s %d", student.name, student.id, &student.age, student.gender, student.pass,&student.grade) != EOF) {
             if (strcmp(id, student.id) != 0) {
-                fprintf(tempnt, "%s %s %d %s %s %d\n ",
+                fprintf(tempnt, "%s %s %d %s %s %d\n",
                         student.name, student.id, student.age, student.gender, student.pass, student.grade);
             }
             else{
+
                 fprintf(tempnt, "%s %s %d %s %s %d\n",
                         student.name, student.id, student.age, student.gender, student.pass, nGrade);
             }
         }
+    fclose(fp);
+    fclose(tempnt);
     remove("recFile.txt");
     rename("tempFile.txt", "recFile.txt");
     printf("record updated successfully.\n");
+    adminPrevilage();
+    free(fp);
+    free(tempnt);
 }
 
 

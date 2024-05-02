@@ -16,4 +16,5 @@ add_executable(New_folder
         user/user.c
         user/user.h
         main.c
-        struct.h)
+        struct.h
+)
