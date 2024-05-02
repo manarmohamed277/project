@@ -32,7 +32,6 @@ The system is structured into several files:
 ## Usage 
 
 * __Admin Mode:__ Upon entering the correct admin password, you can perform various administrative tasks.
-  
 * __User Mode:__ Users can view their records, edit their passwords, and edit their names after entering their IDs and passwords.
 
 
@@ -43,6 +42,7 @@ Here's an example of how to use the system:
 1.__Admin Mode:__
 * Enter admin mode.
 * Choose an option to add, remove, view records, etc.
+  
 2.__User Mode:__
 * Enter user mode.
 * Enter ID and password.
