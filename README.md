@@ -3,7 +3,7 @@
 This is a student record system implemented in C that allows administrators and users to manage student records.
 The system utilizes file handling for storing and retrieving records.
 
-## Features 2
+## Features 
 
 **Admin mode:**
 * Add a student record
@@ -17,3 +17,6 @@ The system utilizes file handling for storing and retrieving records.
 * View student record
 * Edit user password
 * Edit user name
+
+## File Handlig
+The system uses file handling to store and retrieve student records. Records are stored in a file named *recFile.txt*.
