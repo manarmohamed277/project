@@ -40,12 +40,12 @@ The system is structured into several files:
 Here's an example of how to use the system:
 
 1.__Admin Mode:__
-*Enter admin mode.
-*Choose an option to add, remove, view records, etc.
+* Enter admin mode.
+* Choose an option to add, remove, view records, etc.
 2.__User Mode:__
-*Enter user mode.
-*Enter ID and password.
-*Choose an option to view or edit records.
+* Enter user mode.
+* Enter ID and password.
+* Choose an option to view or edit records.
 
 ## Feedback and Contributions
 Feedback and contributions are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or pull request on GitHub.
